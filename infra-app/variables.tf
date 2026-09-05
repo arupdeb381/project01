@@ -23,11 +23,6 @@ variable "aws_region" {
   type        = string
 }
 
-variable "instance_count" {
-  description = "The number of EC2 instances to create."
-  type        = number
-}
-
 variable "ec2_image_id" {
   description = "The AMI ID for the EC2 instance."
   type        = string

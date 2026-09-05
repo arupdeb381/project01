@@ -10,9 +10,8 @@ module "dev-infra-app" {
     # EC2 Configuration - Manual Selection
     ec2_image_id = "ami-0332d564d76dbd8d6"      # Amazon Linux 2 AMI
     ec2_root_default_vol_size = 8                # 8GB root volume
-    public_ip_attachment = true                  # Assign public IPs
-    instance_count = 5                           # Total instances (2 web + 2 app + 1 bastion)
-    instance_type = "t3.micro"                   # Instance type for all EC2s
+    public_ip_attachment = true                  # Assign public IPs                        # Total instances (2 web + 2 app + 1 bastion)
+    instance_type = "t4g.micro"                   # Instance type for all EC2s
     
     # Database Configuration
     db_name = "appdb"
@@ -20,7 +19,7 @@ module "dev-infra-app" {
     db_password = "SecurePassword123!"
     db_instance_class = "db.t3.micro"
     db_storage_size = 20
-    db_engine_version = "13.7"
+    db_engine_version = "13.10"
 
     # Key Pair
     key_name = "terra-key"
