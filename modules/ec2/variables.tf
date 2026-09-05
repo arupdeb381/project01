@@ -3,11 +3,6 @@ variable "env" {
   type        = string
 }
 
-variable "bucket_name" {
-  description = "This is the name of the S3 bucket for Terraform state"
-  type        = string
-}
-
 variable "ec2_image_id" {
   description = "This is the AMI ID for the EC2 instance"
   type    = string
@@ -37,4 +32,3 @@ variable "hash_key" {
   description = "This is the hash key for the DynamoDB table"
   type        = string
 }
-
