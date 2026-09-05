@@ -7,7 +7,7 @@ terraform {
     bucket         = "projects381"
     key            = "3tier-app/terraform.tfstate"
     region         = "us-east-1"
-    dynamodb_table = "terraform-state-lock"
+    use_lockfile    = true
     encrypt        = true
   }
 }

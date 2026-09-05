@@ -9,8 +9,8 @@ resource "aws_instance" "web-ec2-01" {
     instance_type = var.instance_type
     key_name      = aws_key_pair.key.key_name
     associate_public_ip_address = var.public_ip_attachment
-    subnet_id    = aws_subnet.public-subnet-01-1a.id
-    user_data = file("modules/infra-app/user-data/web.sh")
+    subnet_id    = aws_subnet.web_snet-01-1a.id
+    user_data = file("infra-app/user-data/web.sh")
     root_block_device {
         volume_size = var.ec2_root_default_vol_size
     }
@@ -26,8 +26,8 @@ resource "aws_instance" "web-ec2-02" {
     instance_type = var.instance_type
     key_name      = aws_key_pair.key.key_name
     associate_public_ip_address = var.public_ip_attachment
-    subnet_id    = aws_subnet.public-subnet-01-1b.id
-    user_data = file("modules/infra-app/user-data/web.sh")
+    subnet_id    = aws_subnet.web_snet-02-1b.id
+    user_data = file("infra-app/user-data/web.sh")
         root_block_device {
         volume_size = var.ec2_root_default_vol_size
     }
@@ -43,6 +43,7 @@ resource "aws_instance" "bastion-ec2" {
     instance_type = var.instance_type
     key_name      = aws_key_pair.key.key_name
     associate_public_ip_address = var.public_ip_attachment
+    subnet_id    = aws_subnet.web_snet-01-1a.id
         root_block_device {
         volume_size = var.ec2_root_default_vol_size
     }
@@ -57,8 +58,8 @@ resource "aws_instance" "app-ec2-01" {
     instance_type = var.instance_type
     key_name      = aws_key_pair.key.key_name
     associate_public_ip_address = var.public_ip_attachment
-    subnet_id     = aws_subnet.private-subnet-01-1a.id
-    user_data = file("modules/infra-app/user-data/app.sh")
+    subnet_id     = aws_subnet.app_snet-01-1a.id
+    user_data = file("infra-app/user-data/app.sh")
         root_block_device {
         volume_size = var.ec2_root_default_vol_size
     }
@@ -74,8 +75,8 @@ resource "aws_instance" "app-ec2-02" {
     instance_type = var.instance_type
     key_name      = aws_key_pair.key.key_name
     associate_public_ip_address = var.public_ip_attachment
-    subnet_id     = aws_subnet.private-subnet-01-1b.id
-    user_data = file("modules/infra-app/user-data/app.sh")
+    subnet_id     = aws_subnet.app_snet-02-1b.id
+    user_data = file("infra-app/user-data/app.sh")
         root_block_device {
         volume_size = var.ec2_root_default_vol_size
     }

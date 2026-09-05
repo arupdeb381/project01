@@ -5,8 +5,8 @@ resource "aws_lb" "app-alb" {
   load_balancer_type = "application"
   security_groups    = [aws_security_group.app-sg.id]
   subnets            = [
-    aws_subnet.private-subnet-01-1a.id,
-    aws_subnet.private-subnet-02-1b.id
+    aws_subnet.app_snet-01-1a.id,
+    aws_subnet.app_snet-02-1b.id
   ]
 }
 

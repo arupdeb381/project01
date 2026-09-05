@@ -1,52 +1,74 @@
 resource "aws_vpc" "my-vpc" {
-  cidr_block = var.vpc_cidr_block
+  cidr_block = "10.0.0.0/16"
   tags = {
     Name = "${var.env}-infra-app-vpc"
     Env  = var.env
   }
 }
 
-resource "aws_subnet" "public-subnet-01-1a" {
+resource "aws_subnet" "web_snet-01-1a" {
   vpc_id                  = aws_vpc.my-vpc.id
   cidr_block              = "10.0.1.0/24"
   availability_zone       = "${var.aws_region}a"
   map_public_ip_on_launch = true
   tags = {
-    Name = "${var.env}-infra-app-public-subnet-01-1a"
+    Name = "${var.env}-infra-WEB-subnet-01-1a"
     Env  = var.env
   }
 }
 
-resource "aws_subnet" "public-subnet-02-1b" {
+resource "aws_subnet" "web_snet-02-1b" {
   vpc_id                  = aws_vpc.my-vpc.id
   cidr_block              = "10.0.2.0/24"
   availability_zone       = "${var.aws_region}b"
   map_public_ip_on_launch = true
   tags = {
-    Name = "${var.env}-infra-app-public-subnet-02-1b"
+    Name = "${var.env}-infra-WEB-subnet-02-1b"
     Env  = var.env
   }
 }
 
-resource "aws_subnet" "private-subnet-01-1a" {
+resource "aws_subnet" "app_snet-01-1a" {
   vpc_id            = aws_vpc.my-vpc.id
   cidr_block        = "10.0.11.0/24"
   availability_zone = "${var.aws_region}a"
   tags = {
-    Name = "${var.env}-infra-app-private-subnet-01-1a"
+    Name = "${var.env}-infra-APP-subnet-01-1a"
     Env  = var.env
   }
 }
 
-resource "aws_subnet" "private-subnet-02-1b" {
+resource "aws_subnet" "app_snet-02-1b" {
   vpc_id            = aws_vpc.my-vpc.id
   cidr_block        = "10.0.12.0/24"
   availability_zone = "${var.aws_region}b"
   tags = {
-    Name = "${var.env}-infra-app-private-subnet-02-1b"
+    Name = "${var.env}-infra-APP-subnet-02-1b"
     Env  = var.env
   }
 }
+
+
+resource "aws_subnet" "db_snet-01-1a" {
+  vpc_id            = aws_vpc.my-vpc.id
+  cidr_block        = "10.0.21.0/24"
+  availability_zone = "${var.aws_region}a"
+  tags = {
+    Name = "${var.env}-infra-DB-subnet-01-1a"
+    Env  = var.env
+  }
+}
+
+resource "aws_subnet" "db_snet-02-1b" {
+  vpc_id            = aws_vpc.my-vpc.id
+  cidr_block        = "10.0.22.0/24"
+  availability_zone = "${var.aws_region}b"
+  tags = {
+    Name = "${var.env}-infra-DB-subnet-02-1b"
+    Env  = var.env
+  }
+}
+
 
 resource "aws_internet_gateway" "my-igw" {
   vpc_id = aws_vpc.my-vpc.id
@@ -90,12 +112,12 @@ resource "aws_route_table" "public-rt" {
 }
 
 resource "aws_route_table_association" "public-subnet-01-1a-association" {
-  subnet_id      = aws_subnet.public-subnet-01-1a.id
+  subnet_id      = aws_subnet.web_snet-01-1a.id
   route_table_id = aws_route_table.public-rt.id
 }
 
 resource "aws_route_table_association" "public-subnet-02-1b-association" {
-  subnet_id      = aws_subnet.public-subnet-02-1b.id
+  subnet_id      = aws_subnet.web_snet-02-1b.id
   route_table_id = aws_route_table.public-rt.id
 }
 
@@ -155,7 +177,7 @@ resource "aws_eip" "nat" {
 # NAT Gateway in public subnet
 resource "aws_nat_gateway" "nat" {
   allocation_id = aws_eip.nat.id
-  subnet_id     = aws_subnet.public-subnet-01-1a.id
+  subnet_id     = aws_subnet.web_snet-01-1a.id
   
   tags = {
     Name = "${var.env}-nat-gw"
@@ -180,12 +202,12 @@ resource "aws_route_table" "private-rt" {
 
 # Associate private subnets with private route table
 resource "aws_route_table_association" "private-subnet-01-1a-association" {
-  subnet_id      = aws_subnet.private-subnet-01-1a.id
+  subnet_id      = aws_subnet.app_snet-01-1a.id
   route_table_id = aws_route_table.private-rt.id
 }
 
 resource "aws_route_table_association" "private-subnet-02-1b-association" {
-  subnet_id      = aws_subnet.private-subnet-02-1b.id
+  subnet_id      = aws_subnet.app_snet-02-1b.id
   route_table_id = aws_route_table.private-rt.id
 }
 

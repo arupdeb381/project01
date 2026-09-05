@@ -5,8 +5,8 @@ resource "aws_lb" "web-alb" {
   load_balancer_type = "application"
   security_groups    = [aws_security_group.WebSG.id]
   subnets            = [
-    aws_subnet.public-subnet-01-1a.id,
-    aws_subnet.public-subnet-02-1b.id
+    aws_subnet.web_snet-01-1a.id,
+    aws_subnet.web_snet-02-1b.id
   ]
 }
 

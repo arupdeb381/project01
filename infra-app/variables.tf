@@ -48,11 +48,6 @@ variable "ec2_root_default_vol_size" {
   type        = number
 }
 
-variable "instance_count" {
-  description = "The number of EC2 instances to create."
-  type        = number
-}
-
 ##### postgress SQL RDS variables
 variable "db_instance_class" {
   description = "The instance class for the RDS PostgreSQL instance."
@@ -74,3 +69,14 @@ variable "db_password" {
   type        = string
   sensitive   = true
 }
+
+variable "db_storage_size" {
+  description = "The allocated storage size for the RDS PostgreSQL instance (in GB)."
+  type        = number
+}
+
+variable "db_engine_version" {
+  description = "The engine version for the RDS PostgreSQL instance."
+  type        = string
+}
+
